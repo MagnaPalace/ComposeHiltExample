@@ -133,7 +133,13 @@ fun MainScreen(
                 )
             ) {
                 AddUserScreen(
-                        onDismiss = { isHideAddUserScreen = true }
+                    onDismiss = {
+                            isHideAddUserScreen = true
+                                },
+                    onSaved = {
+                        isHideAddUserScreen = true
+                        viewModel.getAllUsers()
+                    }
                 )
             }
         }
