@@ -31,11 +31,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.composehiltexample.main.MainScreen
+import com.example.composehiltexample.preview.PreviewAddUserViewModel
+import com.example.composehiltexample.preview.PreviewMainViewModel
 
-@Preview//(showBackground = true)
+@Preview(showBackground = true)
+@Composable
+fun AddUserScreenPreview() {
+    AddUserScreen(
+        viewModel = PreviewAddUserViewModel()
+    )
+}
+
 @Composable
 fun AddUserScreen(
-    viewModel: AddUserViewModel = hiltViewModel(),
+    viewModel: AddUserViewModelContract,
     onDismiss: () -> Unit = {},
     onSaved: () -> Unit = {}
 ) {

@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,8 +60,19 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppNavHost(navController: NavHostController = rememberNavController()) {
-    NavHost(navController, startDestination = "main") {
-        composable("main") { MainScreen(navController) }
+fun AppNavHost(
+    navController: NavHostController = rememberNavController()
+) {
+    NavHost(
+        navController, startDestination = "main"
+    ) {
+        composable("main") {
+            val viewModel: MainViewModel = hiltViewModel()
+
+            MainScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
     }
 }

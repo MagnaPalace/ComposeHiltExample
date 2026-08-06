@@ -10,6 +10,8 @@ import com.example.composehiltexample.manager.IndicatorManager
 import com.example.composehiltexample.model.User
 import com.example.composehiltexample.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,12 +19,12 @@ import javax.inject.Inject
 class AddUserViewModel @Inject constructor(
     private val repository: UserRepository,
     private val indicatorManager: IndicatorManager
-): ViewModel() {
+): ViewModel(), AddUserViewModelContract {
 
-    var isSaved by mutableStateOf(false)
+    override var isSaved by mutableStateOf(false)
         private set
 
-    fun addUser(userId: String, name: String, comment: String) {
+    override fun addUser(userId: String, name: String, comment: String) {
         val newUser = User(userId, name, comment)
         viewModelScope.launch {
             indicatorManager.show()

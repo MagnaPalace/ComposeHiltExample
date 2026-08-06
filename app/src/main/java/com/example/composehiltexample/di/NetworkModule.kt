@@ -64,7 +64,7 @@ object NetworkModule {
         moshi: Moshi
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8888/")
+            .baseUrl("http://10.0.2.2:8000/") // androidのlocalhostのこと
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()

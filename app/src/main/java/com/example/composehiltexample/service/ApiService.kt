@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("api/user/all") // GET
+    @GET("api/user/all") // GET
     suspend fun getAllUsers(): UserResponse
 
     @POST("api/user/store")

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,16 +35,27 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composehiltexample.add.AddUserScreen
+import com.example.composehiltexample.add.AddUserViewModel
+import com.example.composehiltexample.preview.PreviewMainViewModel
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
+fun MainScreenPreview() {
+    MainScreen(
+        navController = rememberNavController(),
+        viewModel = PreviewMainViewModel()
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun MainScreen(
-    navController: NavController = rememberNavController(),
-    viewModel: MainViewModel = hiltViewModel()
+    navController: NavController,// = rememberNavController(),
+    viewModel: MainViewModelContract//MainViewModel = hiltViewModel()
 ) {
-    val users = viewModel.users
+
+    val users by viewModel.users.collectAsState()
 
     var isShowAddUserScreen by remember { mutableStateOf(false) }
     var isSlideUpVisible by remember { mutableStateOf(false) }
@@ -133,6 +145,7 @@ fun MainScreen(
                 )
             ) {
                 AddUserScreen(
+                    viewModel = hiltViewModel<AddUserViewModel>(),
                     onDismiss = {
                             isHideAddUserScreen = true
                                 },

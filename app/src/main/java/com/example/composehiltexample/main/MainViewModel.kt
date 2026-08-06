@@ -10,6 +10,8 @@ import com.example.composehiltexample.manager.IndicatorManager
 import com.example.composehiltexample.model.User
 import com.example.composehiltexample.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,16 +19,17 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: UserRepository,
     private val indicatorManager: IndicatorManager
-): ViewModel() {
-    var users by mutableStateOf<List<User>>(emptyList())
-        private set
+): ViewModel(), MainViewModelContract {
 
-    fun getAllUsers() {
+    private val _users = MutableStateFlow<List<User>>(emptyList())
+    override val users: StateFlow<List<User>> = _users
+
+    override fun getAllUsers() {
         viewModelScope.launch {
             indicatorManager.show()
             try {
                 val response = repository.getAllUsers()
-                users = response.users
+                _users.value = response.users
                 Log.d("MainViewModel", "getAllUser: ${users}")
             } catch (e: Exception) {
                 Log.e("MainViewModel", "getAllUser Error: ${ e.message }")
